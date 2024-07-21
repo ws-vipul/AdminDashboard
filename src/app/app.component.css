@@ -1,0 +1,46 @@
+.main-container {
+    .row {
+        display: flex;
+    }
+   
+}
+
+.nav-items {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 200px;
+    background-color: black;
+
+    .nav-item {
+
+        :hover, &:focus {
+            background-color: grey;
+        }
+        .nav-link  {
+            padding: 5%;
+            .item-text {
+                color: white;
+                text-decoration: none;
+
+                .bi {
+                    padding: 5%;
+                }
+            
+            }
+        }
+
+    }
+}
+
+.nav-items .active {
+    background-color: grey;
+}
+
+.brand-text {
+    color: white;
+    font-family: sans-serif;
+    font-weight: bolder;
+    font-size: 12px;
+}

@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="row page-title mt-3 justify-content-center">
+        <div class="col-md-12 text-center bg-black rounded p-2">
+            <h5 class="text-light">OPERATORS DATA</h5>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-2">
+            <div class="card shadow-lg bg-black rounded">
+                <h5 class="card-title text-center">30</h5>
+                <h6 class="card-subtitle mb-2 text-body-primary text-center pt-2">Total Count</h6>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card shadow-lg bg-black rounded">
+                <h5 class="card-title text-center">0</h5>
+                <h6 class="card-subtitle mb-2 text-body-primary text-center pt-2">Today's Count</h6>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card shadow-lg bg-black rounded">
+                <h5 class="card-title text-center">7</h5>
+                <h6 class="card-subtitle mb-2 text-body-primary text-center pt-2">Month's Count</h6>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card shadow-lg bg-black rounded">
+                <h5 class="card-title text-center">2</h5>
+                <h6 class="card-subtitle mb-2 text-body-primary text-center pt-2">Deleted Count</h6>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card shadow-lg bg-black rounded">
+                <h5 class="card-title text-center">30</h5>
+                <h6 class="card-subtitle mb-2 text-body-primary text-center pt-2">Logined Count</h6>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card shadow-lg bg-black rounded">
+                <h5 class="card-title text-center">30</h5>
+                <h6 class="card-subtitle mb-2 text-body-primary text-center pt-2">Active Count</h6>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+        <table class="table table-striped table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email Id</th>
+                <th scope="col">Mobile Number</th>
+                <th scope="col">Perform Action</th>
+              </tr>
+            </thead>
+            <tbody>         
+            <tr *ngFor="let operator of allOperators">
+                <th scope="row">{{operator.id}}</th>
+                <td>{{operator.firstName}}</td>
+                <td>{{operator.lastName}}</td>
+                <td>{{operator.email}}</td>
+                <td>{{operator.mobNum}}</td>
+                <td>
+                    <span>
+                        <a class="action-icon px-2"><i class="bi bi-pen-fill"></i></a>
+                    </span>
+                    <span>
+                        <a class="action-icon px-2"><i class="bi bi-trash3"></i></a>
+                    </span>
+                    <span>
+                        <a class="action-icon px-2"><i class="bi bi-info-square"></i></a>
+                    </span>
+                </td>
+                </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
