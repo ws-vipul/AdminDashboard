@@ -1,0 +1,11 @@
+
+.card {
+    padding: 20px;
+    color: white;
+    box-shadow: 5px 5 px;
+}
+
+.action-icon {
+    color: inherit;
+}
+

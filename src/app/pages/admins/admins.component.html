@@ -1,14 +1,27 @@
 <div class="container">
     <div class="row page-title mt-3 justify-content-center">
-        <div class="col-md-10 align-middle text-center bg-black rounded p-2">
-            <h5 class="text-light">ADMINS DATA</h5>
+        <div class="col-md-12 align-middle text-center bg-black rounded p-2">
+            <h5 class="text-light">ADMINS</h5>
         </div>
-        <div class="col-md-2">
-            <button type="button" class="btn btn-outline-dark p-3" data-bs-toggle="modal" data-bs-target="#createAdmin">
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#createAdmin">
                 CREATE ADMIN
               </button>
         </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#searchAdminModal">
+                SEARCH ADMIN
+              </button>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#exportAdminModal">
+                EXPORT DATA
+              </button>
+        </div>
     </div>
+
     <div class="row justify-content-center mt-3">
         <div class="col-md-2">
             <div class="card shadow-lg bg-black rounded">
@@ -25,7 +38,13 @@
         <div class="col-md-2">
             <div class="card shadow-lg bg-black rounded">
                 <h5 class="card-title text-center">7</h5>
-                <h6 class="card-subtitle mb-2 text-body-primary text-center pt-2">Last Month Count</h6>
+                <h6 class="card-subtitle mb-2 text-body-primary text-center pt-2">30 days Count</h6>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card shadow-lg bg-black rounded">
+                <h5 class="card-title text-center">7</h5>
+                <h6 class="card-subtitle mb-2 text-body-primary text-center pt-2">90 days Count</h6>
             </div>
         </div>
         <div class="col-md-2">
@@ -62,13 +81,13 @@
                 <td>{{admin.mobNum}}</td>
                 <td>
                     <span>
-                        <a class="action-icon px-2"><i class="bi bi-pen-fill"></i></a>
+                        <button class="btn bg-light border-0 mx-1" data-bs-toggle="modal" data-bs-target="#editAdminModal" (click)="fetchAdminDetails(admin.id)" ><i class="bi bi-pen-fill"></i></button>
                     </span>
                     <span>
-                        <a class="action-icon px-2"><i class="bi bi-trash3"></i></a>
+                        <button class="btn bg-light border-0 mx-1" (click)="deleteAdmin(admin.id)"><i class="bi bi-trash3"></i></button>
                     </span>
                     <span>
-                        <a class="action-icon px-2"><i class="bi bi-info-square"></i></a>
+                        <button class="btn bg-light border-0 mx-1" data-bs-toggle="modal" data-bs-target="#adminLogsModal" (click)="fetchAdminLogs(admin.id)"><i class="bi bi-info-square"></i></button>
                     </span>
                 </td>
                 </tr>
@@ -81,7 +100,7 @@
 
 <!-- MODELS FORM   -->
 
-<div class="modal fade" id="createAdmin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div #createAdmin class="modal fade" id="createAdmin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -91,30 +110,162 @@
           </button>
         </div>
         <div class="modal-body">
-            <form>
+            <form [formGroup]="postAdminForm" (ngSubmit)="crateAdmin()">
                 <div class="form-group">
                   <label for="InputFirstName">First Name</label>
-                  <input type="text" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="Enter First Name">
+                  <input type="text" class="form-control" formControlName="firstName" aria-describedby="emailHelp" placeholder="Enter First Name">
                 </div>
                 <div class="form-group">
                   <label for="InputLastName">Last Name</label>
-                  <input type="text" class="form-control" id="inputPassword1" placeholder="Enter Last Name">
+                  <input type="text" class="form-control" formControlName="lastName" placeholder="Enter Last Name">
                 </div>
                 <div class="form-group">
                     <label for="InputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputPassword1" placeholder="Enter Email">
+                    <input type="email" class="form-control" formControlName="email" placeholder="Enter Email">
                 </div>
                 <div class="form-group">
                     <label for="InputMobNum">Mobile Number</label>
-                    <input type="number" class="form-control" id="inputPassword1" placeholder="Enter Mobile Number">
+                    <input type="number" class="form-control" formControlName="mobNum" placeholder="Enter Mobile Number">
                 </div>
-              </form>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary">Create</button>
-                <button type="button" class="btn btn-black" data-bs-dismiss="modal">Close</button>
-              </div>
+                <div class="form-group">
+                    <label for="InputPassword">Password</label>
+                    <input type="password" class="form-control" formControlName="password" placeholder="Enter Temporary Password">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">Create</button>
+                </div>
+            </form>
         </div>
       </div>
     </div>
   </div>
 
+    <!-- Edit Admin Modal -->
+  <div #editAdminModal class="modal fade" id="editAdminModal" tabindex="-1" role="dialog" aria-labelledby="editAdminModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Admin</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="postEditAdminForm" (ngSubmit)="editAdmin()">
+                <div class="form-group">
+                  <label for="InputFirstName">First Name</label>
+                  <input type="text" class="form-control" formControlName="editFirstName" aria-describedby="emailHelp" placeholder="Enter First Name">
+                </div>
+                <div class="form-group">
+                  <label for="InputLastName">Last Name</label>
+                  <input type="text" class="form-control" formControlName="editLastName" placeholder="Enter Last Name">
+                </div>
+                <div class="form-group">
+                    <label for="InputEmail">Email</label>
+                    <input type="email" class="form-control" formControlName="editEmail" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                    <label for="InputMobNum">Mobile Number</label>
+                    <input type="number" class="form-control" formControlName="editMobNum" placeholder="Enter Mobile Number">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">Save</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- admin logs modal -->
+  <div #adminLogsModal class="modal fade" id="adminLogsModal" tabindex="-1" role="dialog" aria-labelledby="adminLogsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Admin Logs</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Date And Time</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Log</th>
+                    <th scope="col">Reason</th>
+                  </tr>
+                </thead>
+                <tbody>         
+                <tr *ngFor="let log of adminLogs">
+                    <th scope="row">{{log.logDateTime}}</th>
+                    <td>{{log.action}}</td>
+                    <td>{{log.log}}</td>
+                    <td>{{log.reason}}</td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- search admin modal -->
+
+  <div #searchAdminModal class="modal fade" id="searchAdminModal" tabindex="-1" role="dialog" aria-labelledby="searchAdminModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Search Admin</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <select class="custom-select" id="inputGroupSelect01">
+                    <option value="firstName" selected>First Name</option>
+                    <option value="LastName">Last Name</option>
+                    <option value="email">Email</option>
+                    <option value="mobNum">Mobile Number</option>
+                  </select>
+                </div>
+                <input type="text" class="form-control" aria-label="Text input with dropdown button">
+              </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary w-25">Search</button>
+            </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- export data modal -->
+  <div #exportAdminModal class="modal fade" id="exportAdminModal" tabindex="-1" role="dialog" aria-labelledby="exportAdminModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Search Admin</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <template>
+                <div>
+                  <label for="example-datepicker">Choose a date</label>
+                  <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
+                </div>
+              </template>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary w-25">Export</button>
+            </div>  
+        </div>
+      </div>
+    </div>
+</div>
