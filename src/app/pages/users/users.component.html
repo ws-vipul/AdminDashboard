@@ -6,17 +6,17 @@
     </div>
     <div class="row mt-3">
         <div class="col-md-4">
-            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#createAdmin">
+            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#createUser">
                 CREATE USER
               </button>
         </div>
         <div class="col-md-4">
-            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#createAdmin">
+            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#searchUserModal">
                 SEARCH USER
               </button>
         </div>
         <div class="col-md-4">
-            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#createAdmin">
+            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#exportUserModal">
                 EXPORT DATA
               </button>
         </div>
@@ -80,17 +80,192 @@
                 <td>{{user.mobNum}}</td>
                 <td>
                     <span>
-                        <a class="action-icon px-2"><i class="bi bi-pen-fill"></i></a>
+                        <button class="btn bg-light border-0 mx-1" data-bs-toggle="modal" data-bs-target="#editUserModal" (click)="fetchUserDetails(user.id)" ><i class="bi bi-pen-fill"></i></button>
                     </span>
                     <span>
-                        <a class="action-icon px-2"><i class="bi bi-trash3"></i></a>
+                        <button class="btn bg-light border-0 mx-1" (click)="deleteUser(user.id)"><i class="bi bi-trash3"></i></button>
                     </span>
                     <span>
-                        <a class="action-icon px-2"><i class="bi bi-info-square"></i></a>
+                        <button class="btn bg-light border-0 mx-1" data-bs-toggle="modal" data-bs-target="#userLogsModal" (click)="fetchUserLogs(user.id)"><i class="bi bi-info-square"></i></button>
                     </span>
                 </td>
                 </tr>
             </tbody>
           </table>
+    </div>
+</div>
+
+
+<!-- CREATE MODELS FORM   -->
+
+<div #createUser class="modal fade" id="createUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="postUserForm" (ngSubmit)="crateUser()">
+                <div class="form-group">
+                  <label for="InputFirstName">First Name</label>
+                  <input type="text" class="form-control" formControlName="firstName" aria-describedby="emailHelp" placeholder="Enter First Name">
+                </div>
+                <div class="form-group">
+                  <label for="InputLastName">Last Name</label>
+                  <input type="text" class="form-control" formControlName="lastName" placeholder="Enter Last Name">
+                </div>
+                <div class="form-group">
+                    <label for="InputEmail">Email</label>
+                    <input type="email" class="form-control" formControlName="email" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                    <label for="InputMobNum">Mobile Number</label>
+                    <input type="number" class="form-control" formControlName="mobNum" placeholder="Enter Mobile Number">
+                </div>
+                <div class="form-group">
+                    <label for="InputPassword">Password</label>
+                    <input type="password" class="form-control" formControlName="password" placeholder="Enter Temporary Password">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">Create</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Edit User Modal -->
+  <div #editUserModal class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="postEditUserForm" (ngSubmit)="editUser()">
+                <div class="form-group">
+                  <label for="InputFirstName">First Name</label>
+                  <input type="text" class="form-control" formControlName="editFirstName" aria-describedby="emailHelp" placeholder="Enter First Name">
+                </div>
+                <div class="form-group">
+                  <label for="InputLastName">Last Name</label>
+                  <input type="text" class="form-control" formControlName="editLastName" placeholder="Enter Last Name">
+                </div>
+                <div class="form-group">
+                    <label for="InputEmail">Email</label>
+                    <input type="email" class="form-control" formControlName="editEmail" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                    <label for="InputMobNum">Mobile Number</label>
+                    <input type="number" class="form-control" formControlName="editMobNum" placeholder="Enter Mobile Number">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">Save</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- user logs modal -->
+  <div #userLogsModal class="modal fade" id="userLogsModal" tabindex="-1" role="dialog" aria-labelledby="userLogsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">User Logs</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Date And Time</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Log</th>
+                    <th scope="col">Reason</th>
+                  </tr>
+                </thead>
+                <tbody>         
+                <tr *ngFor="let log of userLogs">
+                    <th scope="row">{{log.logDateTime}}</th>
+                    <td>{{log.action}}</td>
+                    <td>{{log.log}}</td>
+                    <td>{{log.reason}}</td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- search user modal -->
+
+  <div #searchUserModal class="modal fade" id="searchUserModal" tabindex="-1" role="dialog" aria-labelledby="searchUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Search User</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <select class="custom-select" id="inputGroupSelect01">
+                    <option value="firstName" selected>First Name</option>
+                    <option value="LastName">Last Name</option>
+                    <option value="email">Email</option>
+                    <option value="mobNum">Mobile Number</option>
+                  </select>
+                </div>
+                <input type="text" class="form-control" aria-label="Text input with dropdown button">
+              </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary w-25">Search</button>
+            </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- export data modal -->
+  <div #exportUserModal class="modal fade" id="exportUserModal" tabindex="-1" role="dialog" aria-labelledby="exportUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Export Users Data</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Select Date From</label>
+                <input type="date" id="start" class="form-control" name="start-from" value="2024-01-01"
+                min="2024-01-01" max="2050-12-31"/><br>
+                <label>Select Date To</label>
+                <input type="date" id="start" class="form-control" name="start-from" value="2024-01-01"
+                min="2024-01-01" max="2050-12-31"/>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary w-25">Export</button>
+            </div>  
+        </div>
+      </div>
     </div>
 </div>

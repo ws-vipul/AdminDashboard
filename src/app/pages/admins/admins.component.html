@@ -250,18 +250,20 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Search Admin</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Export Admins Data</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-            <template>
-                <div>
-                  <label for="example-datepicker">Choose a date</label>
-                  <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
-                </div>
-              </template>
+            <div class="form-group">
+                <label>Select Date From</label>
+                <input type="date" id="start" class="form-control" name="start-from" value="2024-01-01"
+                min="2024-01-01" max="2050-12-31"/><br>
+                <label>Select Date To</label>
+                <input type="date" id="start" class="form-control" name="start-from" value="2024-01-01"
+                min="2024-01-01" max="2050-12-31"/>
+            </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-secondary w-25">Export</button>
             </div>  

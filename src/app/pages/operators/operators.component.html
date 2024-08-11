@@ -6,17 +6,17 @@
     </div>
     <div class="row mt-3">
         <div class="col-md-4">
-            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#createAdmin">
+            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#createOperator">
                 CREATE OPERATOR
               </button>
         </div>
         <div class="col-md-4">
-            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#createAdmin">
+            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#searchOperatorModal">
                 SEARCH OPERATOR
               </button>
         </div>
         <div class="col-md-4">
-            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#createAdmin">
+            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#exportOperatorModal">
                 EXPORT DATA
               </button>
         </div>
@@ -92,5 +92,181 @@
                 </tr>
             </tbody>
           </table>
+    </div>
+</div>
+
+
+
+<!-- MODELS FORM   -->
+
+<div #createOperator class="modal fade" id="createOperator" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create Operator</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="postOperatorForm" (ngSubmit)="crateOperator()">
+                <div class="form-group">
+                  <label for="InputFirstName">First Name</label>
+                  <input type="text" class="form-control" formControlName="firstName" aria-describedby="emailHelp" placeholder="Enter First Name">
+                </div>
+                <div class="form-group">
+                  <label for="InputLastName">Last Name</label>
+                  <input type="text" class="form-control" formControlName="lastName" placeholder="Enter Last Name">
+                </div>
+                <div class="form-group">
+                    <label for="InputEmail">Email</label>
+                    <input type="email" class="form-control" formControlName="email" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                    <label for="InputMobNum">Mobile Number</label>
+                    <input type="number" class="form-control" formControlName="mobNum" placeholder="Enter Mobile Number">
+                </div>
+                <div class="form-group">
+                    <label for="InputPassword">Password</label>
+                    <input type="password" class="form-control" formControlName="password" placeholder="Enter Temporary Password">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">Create</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Edit Operator Modal -->
+  <div #editOperatorModal class="modal fade" id="editOperatorModal" tabindex="-1" role="dialog" aria-labelledby="editOperatorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Operator</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="postEditOperatorForm" (ngSubmit)="editOperator()">
+                <div class="form-group">
+                  <label for="InputFirstName">First Name</label>
+                  <input type="text" class="form-control" formControlName="editFirstName" aria-describedby="emailHelp" placeholder="Enter First Name">
+                </div>
+                <div class="form-group">
+                  <label for="InputLastName">Last Name</label>
+                  <input type="text" class="form-control" formControlName="editLastName" placeholder="Enter Last Name">
+                </div>
+                <div class="form-group">
+                    <label for="InputEmail">Email</label>
+                    <input type="email" class="form-control" formControlName="editEmail" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                    <label for="InputMobNum">Mobile Number</label>
+                    <input type="number" class="form-control" formControlName="editMobNum" placeholder="Enter Mobile Number">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">Save</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- operator logs modal -->
+  <div #operatorLogsModal class="modal fade" id="operatorLogsModal" tabindex="-1" role="dialog" aria-labelledby="operatorLogsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Operator Logs</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Date And Time</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Log</th>
+                    <th scope="col">Reason</th>
+                  </tr>
+                </thead>
+                <tbody>         
+                <tr *ngFor="let log of operatorLogs">
+                    <th scope="row">{{log.logDateTime}}</th>
+                    <td>{{log.action}}</td>
+                    <td>{{log.log}}</td>
+                    <td>{{log.reason}}</td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- search operator modal -->
+
+  <div #searchOperatorModal class="modal fade" id="searchOperatorModal" tabindex="-1" role="dialog" aria-labelledby="searchOperatorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Search Operator</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <select class="custom-select" id="inputGroupSelect01">
+                    <option value="firstName" selected>First Name</option>
+                    <option value="LastName">Last Name</option>
+                    <option value="email">Email</option>
+                    <option value="mobNum">Mobile Number</option>
+                  </select>
+                </div>
+                <input type="text" class="form-control" aria-label="Text input with dropdown button">
+              </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary w-25">Search</button>
+            </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- export data modal -->
+  <div #exportOperatorModal class="modal fade" id="exportOperatorModal" tabindex="-1" role="dialog" aria-labelledby="exportOperatorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Export Operators Data</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Select Date From</label>
+                <input type="date" id="start" class="form-control" name="start-from" value="2024-01-01"
+                min="2024-01-01" max="2050-12-31"/><br>
+                <label>Select Date To</label>
+                <input type="date" id="start" class="form-control" name="start-from" value="2024-01-01"
+                min="2024-01-01" max="2050-12-31"/>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary w-25">Export</button>
+            </div>  
+        </div>
+      </div>
     </div>
 </div>
